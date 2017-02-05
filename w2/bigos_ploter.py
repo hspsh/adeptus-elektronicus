@@ -1,3 +1,7 @@
+#
+# Kradziony i przerobionyskrypt.Znaleźć oryginał i dodać odnośnik
+#
+
 import matplotlib.pyplot as plt
 from drawnow import *
 import atexit
@@ -40,7 +44,7 @@ def plotValues():
         processed_data.append(plot_data[column])
         processed_data.append(line_styles[column])
         #processed_data.append('values ' + str(column))
-            
+
     plt.plot(*processed_data)
     plt.legend(loc='upper right')
 

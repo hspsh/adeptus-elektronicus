@@ -2,7 +2,7 @@
 #include <DHT.h>
 #include <DHT_U.h>
 
-#define MEASUREMENTS_INTERVAL 2000
+#define MEASUREMENTS_INTERVAL 100
 #define BRIGHTNESS_PIN A0
 #define RED_LED 11
 #define BLUE_LED 10
@@ -30,45 +30,77 @@ void setup( void ) {
   dht.begin();
 }
 
+int lastMeasurementType = 0;
+
 void loop( void ) {
   if (millis() - lastMeasurement > MEASUREMENTS_INTERVAL) {
-    digitalWrite(BUZZER, HIGH);
-    delay(1);
-    digitalWrite(BUZZER, LOW);
+
     
     lastMeasurement = millis();
-    brightness = analogRead(BRIGHTNESS_PIN);
-  
-    sensors_event_t event;
-    dht.temperature().getEvent(&event);
+    switch(lastMeasurementType){
+      case 0:
+        brightness = analogRead(BRIGHTNESS_PIN);
+        break;
+      
+      case 1:
+      case 3:
+      case 5:
+      case 7:
+      case 9:
+        //
+        // empty 
+        //
+        break;
+        
+      case 2:
+          sensors_event_t event;
+          dht.temperature().getEvent(&event);
+          
+          if (isnan(event.temperature)) {
+            temperature = -1;
+          }
+          else {
+            temperature = event.temperature;
+          }
     
-    if (isnan(event.temperature)) {
-      temperature = -1;
-    }
-    else {
-      temperature = event.temperature;
-    }
-    Serial.print(temperature);
-    Serial.print(',');
+          dht.humidity().getEvent(&event);
+          if (isnan(event.relative_humidity)) {
+            humidity = -1;
+          }
+          else {
+            humidity = event.relative_humidity;
+          }
+        break;
+        
+      case 6:
+        Serial.print(temperature);
+        Serial.print(',');
+        Serial.print(humidity);
+        Serial.print(',');
+        Serial.println(brightness);
+        // jasnosc ma wartosc od 0 do 1024, przemapuj na 0-255 dla pwm
+        analogWrite(RED_LED, brightness / 4);
+        // temperatura ma wartosc od 0 do 50, z grubsza przemapuj na 0-255 dla pwm
+        analogWrite(BLUE_LED, temperature * 4);
+        // wilgotnosc ma wartosc od 20 do 95 %, z grubsza przmapuj na 0-255 dla pwm
+        analogWrite(GREEN_LED, humidity * 2);
     
-    dht.humidity().getEvent(&event);
-    if (isnan(event.relative_humidity)) {
-      humidity = -1;
+        digitalWrite(BUZZER, HIGH);
+        delayMicroseconds(100);
+        digitalWrite(BUZZER, LOW);
+        break;
     }
-    else {
-      humidity = event.relative_humidity;
+    
+    if(lastMeasurementType==9){
+      lastMeasurementType=0;
+    } else {
+      lastMeasurementType++;
     }
-    Serial.print(humidity);
-    Serial.print(',');
     
-    Serial.println(brightness);
-    
-    // jasnosc ma wartosc od 0 do 1024, przemapuj na 0-255 dla pwm
-    analogWrite(RED_LED, brightness / 4);
-    // temperatura ma wartosc od 0 do 50, z grubsza przemapuj na 0-255 dla pwm
-    analogWrite(BLUE_LED, temperature * 4);
-    // wilgotnosc ma wartosc od 20 do 95 %, z grubsza przmapuj na 0-255 dla pwm
-    analogWrite(GREEN_LED, humidity * 2);
+    //
+    // guziki!
+    //
+
     
   }
 }
