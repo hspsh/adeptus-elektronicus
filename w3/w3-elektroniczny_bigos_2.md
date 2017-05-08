@@ -91,7 +91,7 @@ Nie. Znaczy tak, ale nie ma to sensu.
 
 Mikrofony elektrytowe charakteryzują się małą amplitudą sygnału wyjściowego - oznacza to, że ciężko jest spróbkować i cokolwiek z nim zrobić.
 
-Co to znaczy "mała amplituda"? Na podstawie pomiarów wyznaczono że wynisi ona maks 65 mV dla bardzo głośnych dźwięków. Wyniki pomiarów (jeden z szeregowo wpiętym kondensatorem wycinającym składową stałą, drugi bez):
+Co to znaczy "mała amplituda"? Na podstawie pomiarów wyznaczono że wynisi ona maks $65 mV$ dla bardzo głośnych dźwięków. Wyniki pomiarów (jeden z szeregowo wpiętym kondensatorem wycinającym składową stałą, drugi bez):
 
  ![](img/mikrofon-pomiar-amplitudy.png)
 
@@ -114,7 +114,7 @@ Schemat ADC z notu katalogowej atmega 328
 
 Nota o przetwornikach analogowo cyfrowych (A/D) cd.
 ===
-1. Jako że ADC porównuje sygnał mierzony do sygnału wzorcowego nie ma dla niego różnicy czy sygnał mierzony jest większy o 0.001 V czy 1000 V od sygnału wzorcowego. No chyba że coś się zjara.
+1. Jako że ADC porównuje sygnał mierzony do sygnału wzorcowego nie ma dla niego różnicy czy sygnał mierzony jest większy o $0.001 V$ czy $1000 V$ od sygnału wzorcowego. No chyba że coś się zjara.
 2. Rozdzielczością przetwornika - precyzja z jaką porównujemy sygnały - czyli najmniejsza wartość zmiany wartości sygnału mierzonego powodująca zmianę sygnału wyjściowego. Rozdzielczość jest zależna od sygnału wzorcowego oraz od szerokości w bitach słowa wyjściowego przetwornika.
 
 <!-- note:
@@ -129,7 +129,7 @@ Nota o przetwornikach analogowo cyfrowych (A/D) cd.
 Czyli co to znaczy że sygnał jest "mały"?
 ===
 
-Sygnał jest mały, gdy jego rozpiętość jest porównywalna do rodzielczości przetwornika. W idealnej sytuacji sygnał wejściowy ADC przyjmuje poziomy między 0 V, a napięciem odniesienia (w przypadku arduino 5 V).
+Sygnał jest mały, gdy jego rozpiętość jest porównywalna do rodzielczości przetwornika. W idealnej sytuacji sygnał wejściowy ADC przyjmuje poziomy między $0 V$, a napięciem odniesienia (w przypadku arduino $5 V$).
 
 Ponieważ długość słowa wyjściowego ADC w arduino wynosi $N=10 bit$, a napięcie odniesienia wynosi $V_{ref}=5 V$ to rozdzielczość wynosi:
 
@@ -146,6 +146,16 @@ można wykryć maks około 10 różnych poziomów. W praktyce mniej
 <!-- footer: @adc @rozdzielczosc @ -->
 
 ---
+
+Odpowiedź
+===
+
+![](img/noise-detector.jpg)
+
+<!--footer: @wzmacniacz @detektor-wartosci-szczytowej @mikrofon @elektryt -->
+
+---
+
 
 Wzmacniacz mikrofonowy - znowu to samo
 ===
@@ -168,7 +178,7 @@ Omówienie schematu wzmacniacza mikrofonowego
 
 ![](img/schemat-detektora-halasu.png)
 
-1. kondensator C1 - usuwa składową stałą z sygnału: przed C1 mamy $x+f(t)$, gdzie $x$ to jakaś wartość stała, a $f(x)$ to właściwy sygnał. W punkcie A mamy tylko $f(x)$
+1. kondensator $C_1$ - usuwa składową stałą z sygnału: przed $C_1$ mamy $x+f(t)$, gdzie $x$ to jakaś wartość stała, a $f(x)$ to właściwy sygnał. W punkcie A mamy tylko $f(x)$
 2. Między węzłem $A$ i $B$ jest wzmacniacz operacyjny kopiujący sygnał z węzła $A$ do $B$ celem izolowania mikrofonu od reszty układu. Mikrofon jest bardzo czuły na to, co do niego podłączymy (ma niską impedancję wyjściową).
 
 
@@ -199,7 +209,7 @@ Omówienie schematu wzmacniacza mikrofonowego cd.
 
 ![](img/schemat-detektora-halasu.png)
 
-4. Kondensator $C_2$ gromadzi energię ze wzmocnionego sygnału, zaś $R_3$ _powoli rozładowywuje go.
+4. Kondensator $C_2$ gromadzi energię ze wzmocnionego sygnału, zaś $R_3$  powoli rozładowywuje go.
 5. Dioda $D_1$ jest tutaj kluczowa dla tego układu. Uniemożliwia ona rozłwadowywanie $C_2$ przez wzmacniacz operacyjny.
 
 <!-- note:
@@ -283,7 +293,7 @@ Dioda to element półprzewodnikowy, który pozwala na przepływ prądu tylko w 
 Dioda może być potraktowana jako odpowiednik mechanizmu zapadkowego w tylnim kole roweru - jedną stronę przepuszcza energię bez problemu, w drugą zaś - już nie.
 
 <!-- note: 
-
+Używaliśmy różnych rzeczy, ale co to jest??? czas to omówić!
 -->
 
 <!-- footer: @dioda @definicja, źródło zdjęcia: wikipedia.org -->
@@ -306,78 +316,146 @@ Używany jako baterie, części filtrów sygnału, piekielnie ważny, podstawowy
 
 ---
 
+Kondensatory - nota o zasilaniu
 ===
+
+__W każdym układzie elektronicznym__ spotyka się kondensatory wpięte bezpośrednio między szyny zasilania. Z założenia występują w układzie: jeden duży przy wejściu zasilającym i jeden mały przy każdym układzie scalonym. Ich zadaniem jest dostarczanie energii w momencie nagłych wzrostów poboru mocy. Typowo używa się elektrolitu $100 uF$ na wejściu zasilania oraz $1 uF$ przy każdym układzie scalonym.
 
 <!-- note:
 
 -->
 
-<!-- footer:  -->
+<!-- footer:  @kondensator @zasilanie-->
 
 ---
 
-Przyciski
+Interfejs użytkownika
 ===
 
-<!-- footer:  @przycisk -->
+![](img/ui.jpg)
+
+
+<!-- footer:  @przycisk @led @interfejs @ui-->
 
 ---
-Nota o debouncing
+Interfejs użytkownika
 ===
 
-<!-- footer: @przycisk @debounce -->
+
+Aby się nie rozwijać zbytnio, zastosujemy najprostrzy możliwy interfejs użytkownika - przyciski oraz diody LED podłączone bezpośrednio pod cyfrowe wejścia i wyjścia arduino.
+
+![](img/ui-schemat.png)
+
+Zapalenie diody polega na ustawieniu podłączoneo wyjścia w stan wysoki, a wyłączenie - w stan niski.
+
+Przyciski wymuszają wykorzystanie wbudowanych w arduino rezystorów podciągających do $5 V$. Wciśnięcie przycisku powoduje przejście pinu w stan niski (zwarcie do masy).
+
+
+<!-- footer: @przycisk @ui @led -->
+
+---
+
+Jak tego używać?
+===
+
+Przyciski: http://www.instructables.com/id/Arduino-Button-with-no-resistor/?ALLSTEPS
+LED: https://www.arduino.cc/en/Tutorial/Fade
+
+
 
 ---
 
 Wskaźniki LED
 ===
 
+![](img/ui-schemat.png)
+
+
+Należy zwrócić uwagę na inny sposób podłączenia diod niż w przypadku wcześniejszej diody RGB dużej mocy. Jako że zastosowane diody pobierają niewielką moc, mogą być zasilane bezpośrednio z mikrokontrolera. Rezystancja $3.3kOhm$ jest optymalna dla wykorzystanego napięcia zasilania wynoszącego $5V$ Przy takim ustawieniu przez diody przepływa około $1 mA$ przy napięciu około $1.7 V$ co daje około $1.7 mW$ mocy.
+
+
+
 <!-- footer: @led @wskaznik @rezystor-->
 
 ---
 
-LED - tym razem bez tranzystora. Dlaczego?
+Czy wiesz że... ? - przyciski drgają
 ===
 
-<!-- footer: @led -->
+![](img/glitch.png)
+
+Podczas wciskania przycisk nie generjuje ładnego, idealnego przejścia od stanu wysokiego do niskiego ani na odwórt.Każde wciśnięcie generuje wiele przejść  (patrz zdjęcie).  Zagadnienie odszumiania takiego sygnału nazywa się debouncingiem.
+
+<!-- footer: @przycisk @debouncing, źródło zdjęcia: http://www.emcu.it/STM32/STM32Discovery-Debounce/STM32Discovery-InputWithDebounce_Output_UART_SPI_SysTick.html -->
 
 
----
-
-Nota o testowaniu
-===
-
-<!-- footer:  @testowanie @zlacze-testowe-->
-
----
-Prezentacja
-===
-
-# SCHEMAT
-<!-- footer: @prezentacja @elektroniczny-bigos -->
 
 ---
 
 Interfejs użytkownika, a liczba pinów
 ===
 
+Cztery przyciski i cztery diody - to aż 8 pinów. Arduino ma dostępnych 21 pinów. Czy teraz rozumieciedlaczego niektóre urządzenia mają irytujący sposób obsługi???
+
+Istnieją alternatywne metody podłączania przycisków i led oszczędzające piny wejściowe/wyjściowe takie jak:
+1. klawiatury matrycowe
+2. klawiatury analogowe (dzielniki napięcia)
+3. multipleksacja led (LED CUBE!)
+4. klawiatury dotykowe
+5. itd.
 <!-- footer:  -->
 
 ---
 
-Błędny wybór wzmacniacza dla fotorezystora
+Nota o testowaniu
 ===
 
-<!-- footer: @blad @fotorezystor @opamp @lm358 -->
+1. Warto wyprowadzić wszystkie znaczące sygnały na łatwo dostępne złącze testowe.
+2. Telefon jest bardzo przydatnym narzędziem testowym - może generować sygnały testowe - sygnały audio, świetlne itd. Jest doskonałym narzędziem do tworzenia dokumentacji. Może nawet nagrywać eksperymenty. Istnieją nawet aplikacje typu oscyloskop na telefon.
+<!-- footer:  @testowanie @zlacze-testowe-->
 
 ---
 
+
+Pułapki
 ===
+* Nie każdy pin arduino ma PWM ;]
+Szlifierka przybywa z odsieczą! (poszukajcie na płytce)
+* wszystko zajmuje więcej miejsca niż to się wydaje!
+* błędny wybór wzmacniacza dla fotorezystora - wykorzystany mcp358 nie jest typu rail to rail, przez co sygnał dochodzi do maks ~$3.7V$ (przed użyciem scalaka należy sprawdzić notę katalogową!) 
 
 <!-- note:
 
 -->
 
-<!-- footer:  -->
+<!-- footer: @pulapki @wnioski -->
+
+---
+
+
+
+Przydatne linki
+===
+1. rezystory -> http://www.digikey.com/-/media/Images/Marketing/Resources/Calculators/resistor-color-chart.jpg?la=en-US&ts=72364a89-2139-476a-8a54-8d78dacd29ff
+2. arduino micro pinout -> http://smartduinos.com/wp-content/uploads/2015/09/tumblr_mhwx21ePTX1s5t695o1_12801.png
+3. mikrofon -> https://www.piekarz.pl/pl/pdf.php?id=4668
+4. dht11 -> http://mikrokontroler.pl/2014/10/06/aplikacja-arduino-czujniki-wilgotnosci-i-temperatury-dht11-i-dht22/
+5. dht11, biblioteka -> http://playground.arduino.cc//Main/DHTLib
+
+---
+
+Przydatne linki cd.
+===
+
+6. tranzystory -> http://www.onsemi.com/pub_link/Collateral/BC546-D.PDF
+7. pnp - 557 - http://www.farnell.com/datasheets/296678.pdf
+8. jebane kondensatory : http://www.marvac.com/fun/images/ceramic_cap.jpg
+
+---
+
+Prezentacja
+===
+
+<!-- footer: @prezentacja @elektroniczny-bigos -->
 
 ---

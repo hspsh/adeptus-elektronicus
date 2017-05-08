@@ -11,9 +11,22 @@
 #define DHTTYPE           DHT11
 #define BUZZER 2
 
+#define LED1 A0
+#define LED2 7
+#define LED3 5
+#define LED4 A2
+
+#define SW1 8
+#define SW2 6
+#define SW3 4
+//#define SW4 22
+
+#define NOISE_INPUT A7
+
 DHT_Unified dht(DHTPIN, DHTTYPE);
 
 int brightness = 0;
+int noise = 0;
 float temperature = 0;
 float humidity = 0;
 unsigned long int lastMeasurement = 0;
@@ -28,6 +41,15 @@ void setup( void ) {
   digitalWrite(BUZZER, LOW);
   Serial.begin(115200);
   dht.begin();
+
+  pinMode(LED1, OUTPUT);
+  pinMode(LED2, OUTPUT);
+  pinMode(LED3, OUTPUT);
+  pinMode(LED4, OUTPUT);
+//  pinMode(SW1, INPUT_PULLUP);
+//  pinMode(SW2, INPUT_PULLUP);
+//  pinMode(SW3, INPUT_PULLUP);
+//  pinMode(SW4, INPUT_PULLUP);
 }
 
 int lastMeasurementType = 0;
@@ -71,13 +93,20 @@ void loop( void ) {
             humidity = event.relative_humidity;
           }
         break;
+
+
+      case 4:
+        noise = analogRead(NOISE_INPUT);
+        break;
         
       case 6:
         Serial.print(temperature);
         Serial.print(',');
         Serial.print(humidity);
         Serial.print(',');
-        Serial.println(brightness);
+        Serial.print(brightness);
+        Serial.print(',');
+        Serial.println(noise);
         // jasnosc ma wartosc od 0 do 1024, przemapuj na 0-255 dla pwm
         analogWrite(RED_LED, brightness / 4);
         // temperatura ma wartosc od 0 do 50, z grubsza przemapuj na 0-255 dla pwm
@@ -96,10 +125,22 @@ void loop( void ) {
     } else {
       lastMeasurementType++;
     }
-    
-    //
-    // guziki!
-    //
+    /*
+    if(lastMeasurementType==1){
+      digitalWrite(LED1, HIGH);
+    }else if(lastMeasurementType==4){
+      digitalWrite(LED2, HIGH);
+    }else if(lastMeasurementType==6){
+      digitalWrite(LED3, HIGH);
+    }else if(lastMeasurementType==9){
+      digitalWrite(LED4, HIGH);
+    } else {
+      digitalWrite(LED1, LOW);
+      digitalWrite(LED2, LOW);
+      digitalWrite(LED3, LOW);
+      digitalWrite(LED4, LOW);
+      
+    }*/
 
     
   }
